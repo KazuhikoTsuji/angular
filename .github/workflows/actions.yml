@@ -1,19 +1,17 @@
-name: Publish Docker image
-on:
-  release:
-    types: [published]
+name: Docker Image CI
+on: [push]
 jobs:
-  push_to_registry:
-    name: Push Docker image to Docker Hub
+  build:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_PW: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Push to Docker Hub
-        uses: docker/build-push-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          repository: kazuhikotsuji/angular
-          tag_with_ref: true
-          
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag kazuhikotsuji/angular:latest
+    - name: Push the Docker image
+      run: |
+        echo $DOCKER_PW | docker login --username $DOCKER_USER --password-stdin docker.io
+        docker push docker.io/kazuhikotsuji/angular:latest
