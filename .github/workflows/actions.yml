@@ -2,7 +2,7 @@ name: Docker Image CI
 on: [push]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     env:
       DOCKER_USER: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_PW: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
