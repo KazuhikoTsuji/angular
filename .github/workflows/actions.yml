@@ -3,31 +3,31 @@ name: npm build, lint, test and publish
 jobs:
   build-and-publish:
     name: build and publish
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v1
       - name: npm install
-        uses: actions/npm@master
+        uses: actions/npm@v1
         with:
           args: install
       - name: npm test
-        uses: actions/npm@master
+        uses: actions/npm@v1
         with:
           args: run test
       - name: npm lint
-        uses: actions/npm@master
+        uses: actions/npm@v1
         with:
           args: run lint
       - name: docker build
-        uses: actions/docker/cli@master
+        uses: actions/docker/cli@v1
         with:
           args: build -t kazuhikotsuji/angular .
       - name: docker login
-        uses: actions/docker/login@master
+        uses: actions/docker/login@v1
         env:
           DOCKER_PASSWORD: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       - name: docker push
-        uses: actions/docker/cli@master
+        uses: actions/docker/cli@v1
         with:
           args: push kazuhikotsuji/angular
