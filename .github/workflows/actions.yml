@@ -19,7 +19,7 @@ jobs:
         with:
           args: run lint
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: kazuhikotsuji/angular
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
